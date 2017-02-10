@@ -1,3 +1,7 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
+  
 #define WIDTH_X 30 // 横方向文字数
 #define WIDTH_X1 30 // 横方向文字数1
 #define WIDTH_X2 40 // 横方向文字数2(6ドットフォント利用時)
@@ -52,7 +56,7 @@ void setcursorcolor(unsigned char c);
 	//カーソル位置そのままでカラー番号をcに設定
 void printchar(unsigned char n);
 	//カーソル位置にテキストコードnを1文字表示し、カーソルを1文字進める
-void printstr(unsigned char *s);
+void printstr(const char *s);
 	//カーソル位置に文字列sを表示
 void printnum(unsigned int n);
 	//カーソル位置に符号なし整数nを10進数表示
@@ -103,7 +107,7 @@ void g_putfont(int x,int y,unsigned int c,int bc,unsigned char n);
 //bc:バックグランドカラー、負数の場合無視
 //n:文字番号
 
-void g_printstr(int x,int y,unsigned int c,int bc,unsigned char *s);
+void g_printstr(int x,int y,unsigned int c,int bc,const char *s);
 //座標(x,y)からカラー番号cで文字列sを表示、bc:バックグランドカラー
 
 void g_printnum(int x,int y,unsigned char c,int bc,unsigned int n);
@@ -114,3 +118,8 @@ void g_printnum2(int x,int y,unsigned char c,int bc,unsigned int n,unsigned char
 
 unsigned int g_color(int x,int y);
 //座標(x,y)のVRAM上の現在のパレット番号を返す、画面外は0を返す
+
+#ifdef __cplusplus
+}
+#endif
+

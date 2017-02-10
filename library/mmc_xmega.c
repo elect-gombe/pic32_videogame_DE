@@ -93,6 +93,7 @@ uint8_t rcvr_spi(void){
 uint8_t rcvr_spi_m(uint8_t *dst){
     putcSPI(0xFF);
     *dst = getcSPI();
+    return 0;
 }
 
 
@@ -518,7 +519,7 @@ DRESULT disk_ioctl (
 {
 	DRESULT res;
 	uint8_t n, csd[16], *ptr = buff;
-	uint32_t *dp, st, ed, csize;
+	uint32_t csize;
 
 
 	if (drv) return RES_PARERR;

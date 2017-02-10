@@ -611,7 +611,7 @@ void printchar(unsigned char n){
 		cursor++;
 	}
 }
-void printstr(unsigned char *s){
+void printstr(const char *s){
 	//カーソル位置に文字列sを表示
 	while(*s){
 		printchar(*s++);
@@ -2611,7 +2611,7 @@ void g_putfont(int x,int y,unsigned int c,int bc,unsigned char n)
 	}
 }
 
-void g_printstr(int x,int y,unsigned int c,int bc,unsigned char *s){
+void g_printstr(int x,int y,unsigned int c,int bc,const char *s){
 	//座標(x,y)からカラー番号cで文字列sを表示、bc:バックグランドカラー
 	while(*s){
 		g_putfont(x,y,c,bc,*s++);
