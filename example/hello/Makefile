@@ -58,6 +58,10 @@ $(OBJDIR)/%.o: $(USERSRCDIR)/%.cpp
 	-mkdir -p $(OBJDIR)
 	$(CPP)  $(COMPILE_CPPFLAGS) $(INC) -o $@ $<
 
+$(OBJDIR)/%.o: $(LIBSRCDIR)/%.cpp 
+	-mkdir -p $(OBJDIR)
+	$(CPP)  $(COMPILE_CPPFLAGS) $(INC) -o $@ $<
+
 $(OBJDIR)/%.o: $(USERSRCDIR)/%.c 
 	-mkdir -p $(OBJDIR)
 	$(CC)  $(COMPILE_CFLAGS) $(INC) -o $@ $<

@@ -5,6 +5,8 @@
 #include <plib.h>
 #include <stdlib.h>
 #include "videoout.h"
+#include "vector2.h"
+#include "xprintf.h"
 
 #include <stdint.h>
 #include <xc.h>
@@ -17,11 +19,29 @@ public:
   int main();
 };
 
+
+using namespace video;
+
+int xp=0;
+void _putc(char ch){
+  if(ch == '\n'){
+    xp/=30;
+    xp*=30;
+    xp+=30;
+    return;
+  }else if(ch == '\0')return;
+  
+  video::putfont((xp%30)*8,(xp/30)*10,7,0,ch);
+  xp++;
+}
+
 hello::hello(int n){
   this->num = n;
 }  
 
 int hello::main(){
+  String s;
+  OSCConfig(OSC_POSC_PLL, OSC_PLL_MULT_15, OSC_PLL_POST_1, 0);
   // Žü•Ó‹@”\ƒsƒ“Š„‚è“–‚Ä
   SDI2R = 2; //RPA4:SDI2
   RPB5R = 4; //RPB5:SDO2
@@ -37,15 +57,31 @@ int hello::main(){
 
   init_composite();
 
-  printstr("this is example 1\n");
-  for(int i=0;i<this->num;i++)
-    printstr("HelloWorld\n");
+  xdev_out(_putc);
+
+  vector2 vector(10*256,10*256);
+  vector+=vector2(5*256,5*256);
+  vector.print();
+  vector-=vector2(5*256,5*256);
+  vector.print();
+  (-vector).print();
+  (+vector).print();
+  (vector*=512).print();
+  (vector*=128).print();
+  
+  xprintf("this is example 1\n");
+  for(int i=0;i<this->num;i++){
+    xprintf("HelloWorld\n");
+  }
+  
   while(1){
     asm("wait");
   }
 
   return 0;
 }
+
+
 
 hello Hello(3);
 int main(void){
