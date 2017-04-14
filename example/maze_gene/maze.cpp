@@ -21,14 +21,6 @@ const vector2_t cdoubledir[4] = {
   {-2,0},
 };
 
-static
-void wait60thsec(int s60){
-  for(int i=0;i<s60;i++){
-    while(drawing);
-    while(!drawing);
-  }
-}
-
 inline
 vector2 operator+(const vector2& v1,const vector2_t& v2){
   return vector2(v1.x+v2.x,v1.y+v2.y);
@@ -79,19 +71,69 @@ void map::printmap(graphiclib& g){
       for(p.x=0;p.x<size.x;p.x++){
 	for(sp.x=-1;sp.x <= 1;sp.x++){
 	  t = p+sp;
+	  dp = p+p+p+sp;
 	  if(*loadmap(p)==WAY||sp.x*sp.x+sp.y*sp.y==2){
-	    video::pset(dp.x,dp.y,15);
+	    video::pset(dp.x+10,dp.y+10,15);
 	  }
 	  else if(isinmap(t)&&*loadmap(t)==WALL){
-	    video::pset(dp.x,dp.y,0);
+	    video::pset(dp.x+10,dp.y+10,0);
 	  }else{
-	    video::pset(dp.x,dp.y,15);
+	    video::pset(dp.x+10,dp.y+10,15);
 	  }
-	  dp.x++;
 	}
       }
-      dp.y++;
-      dp.x=0;
+    }
+  }
+}
+
+void map::printmap(graphiclib& g,const vector2& pd){
+  vector2 p;
+  vector2 sp;
+  vector2 t;
+  vector2 dp;
+  
+  for(p.y=max(0,pd.y-2);p.y<min(size.y,pd.y+2);p.y++){
+    for(sp.y=-1;sp.y <= 1;sp.y++){
+      for(p.x=max(0,pd.x-2);p.x<min(size.x,pd.x+2);p.x++){
+	for(sp.x=-1;sp.x <= 1;sp.x++){
+	  t = p+sp;
+	  dp = p+p+p+sp;
+	  if(*loadmap(p)==WAY||sp.x*sp.x+sp.y*sp.y==2){
+	    video::pset(dp.x+10,dp.y+10,15);
+	  }
+	  else if(isinmap(t)&&*loadmap(t)==WALL){
+	    video::pset(dp.x+10,dp.y+10,0);
+	  }else{
+	    video::pset(dp.x+10,dp.y+10,15);
+	  }
+	}
+      }
+    }
+  }
+}
+
+void map::printmap(graphiclib& g,const vector2& pd,int r){
+  vector2 p;
+  vector2 sp;
+  vector2 t;
+  vector2 dp;
+  
+  for(p.y=max(0,pd.y-r);p.y<min(size.y,pd.y+r);p.y++){
+    for(sp.y=-1;sp.y <= 1;sp.y++){
+      for(p.x=max(0,pd.x-r);p.x<min(size.x,pd.x+r);p.x++){
+	for(sp.x=-1;sp.x <= 1;sp.x++){
+	  t = p+sp;
+	  dp = p+p+p+sp;
+	  if(*loadmap(p)==WAY||sp.x*sp.x+sp.y*sp.y==2){
+	    video::pset(dp.x+10,dp.y+10,15);
+	  }
+	  else if(isinmap(t)&&*loadmap(t)==WALL){
+	    video::pset(dp.x+10,dp.y+10,0);
+	  }else{
+	    video::pset(dp.x+10,dp.y+10,15);
+	  }
+	}
+      }
     }
   }
 }
@@ -109,10 +151,11 @@ void map::dig(vector2& p,graphiclib& g){
     if(isinmap(desti)&&*(pm=loadmap(desti))==WALL){
       *pm=WAY;
       *loadmap(desti-cdir[(c+r)&0x3])=WAY;
+      printmap(g,p+cdir[(c+r)&0x3],3);
+      wait60thsec(1);
       c=0;
       r=myRand();
       p = desti;
-      printmap(g);
     }else{
       c++;
     }
@@ -189,7 +232,7 @@ void map::mazemake(int seed,const vector2& sm,graphiclib& g){
     start = calcstart(candidi);
     if(start.x==0)break;
     dig(start,g);
-    printmap(g);
+    //    printmap(g);
   }
   wait60thsec(120);
   //  printmap_s(size,map);

@@ -1,6 +1,3 @@
-#ifndef __COMPOSITELIB_H
-#define __COMPOSITELIB_H
-
 // コンポジットカラー信号出力プログラム 高解像度版（正方画素）　PIC32MX150F128B用 Ver1.1　by K.Tanaka
 // 出力 PORTB
 //　解像度256×224ドット
@@ -882,6 +879,12 @@ const unsigned char FontData[256*8]={
     IFS0bits.OC2IF = 0;			// OC2割り込みフラグクリア
   }
 }
+void wait60thsec(int s60){
+  for(int i=0;i<s60;i++){
+    while(drawing);
+    while(!drawing);
+  }
+}
 
 namespace video{
 
@@ -1407,4 +1410,3 @@ unsigned int color(int x,int y){
   return (*ad >>(3-(x&3))*4) & 0xf;
 }
 }
-#endif

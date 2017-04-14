@@ -35,8 +35,12 @@ public:
   int genepoints(vector3_t *pv,const vector3& lookat);
 
   void printmap(graphiclib& g);
+  void printmap(graphiclib& g,const vector2& pd);
+  void printmap(graphiclib& g,const vector2& pd,int r);
   void printmap_s();
   void mazemake(int seed,const vector2& size,graphiclib& g);
+
+  vector2 getsize(){return size;}
 };
 
 #endif

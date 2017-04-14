@@ -18,6 +18,8 @@ extern "C"{
 #define KEYSTART 0x0800
 #define KEYFIRE 0x4000
 
+#define ISPRESSED(code) (!(KEYPORT&(code)))
+  
 extern volatile char drawing;		//　表示期間中は-1
 extern volatile unsigned short drawcount;		//　1画面表示終了ごとに1足す。アプリ側で0にする。
 							// 最低1回は画面表示したことのチェックと、アプリの処理が何画面期間必要かの確認に利用。
@@ -88,3 +90,4 @@ namespace video{
 
 }
 
+void wait60thsec(int s60);
